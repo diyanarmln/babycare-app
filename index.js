@@ -26,28 +26,34 @@ app.use(express.urlencoded({ extended: false }));
 
 // ============== route helper funtions ==============
 
+const handleFileReadHome = (request, response) => {
+  response.render('home');
+};
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
-app.get('/signup', handleFileReadSignup);
-app.post('/signup', handleFileSaveSignup);
-app.get('/login', handleFileReadHome);
-app.post('/login', handleFileCheckLogin);
-app.get('/dashboard', handleFileReadDashboard);
-app.get('/soiled-diaper', handleFileReadSoiled);
-app.post('/soiled-diaper', handleFileSaveSoiled);
-app.get('/wet-diaper', handleFileReadWet);
-app.post('/wet-diaper', handleFileSaveWet);
-app.get('/milk', handleFileReadMilk);
-app.post('/milk', handleFileSaveMilk);
-app.get('/sleep', handleFileReadSleep);
-app.post('/sleep', handleFileSaveSleep);
-app.get('/profile/photo/:id', handleFileReadProfilePhoto);
-app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);
-app.put('/profile/photo/:id/edit', handleFileSaveEditPhoto);
-app.get('/profile/:id/edit', handleFileReadProfileEdit);
-app.put('/profile/:id/edit', handleFileSaveProfileEdit);
-app.get('/profile/add', handleFileReadAddProfile);
-app.post('/profile/add', handleFileSaveAddProfile);
-app.get('/settings', handleFileReadSettings);
-app.get('/forgetpassword', handleFileReadForgetPassword);
+// app.get('/signup', handleFileReadSignup);
+// app.post('/signup', handleFileSaveSignup);
+// app.get('/login', handleFileReadHome);
+// app.post('/login', handleFileCheckLogin);
+// app.get('/dashboard', handleFileReadDashboard);
+// app.get('/soiled-diaper', handleFileReadSoiled);
+// app.post('/soiled-diaper', handleFileSaveSoiled);
+// app.get('/wet-diaper', handleFileReadWet);
+// app.post('/wet-diaper', handleFileSaveWet);
+// app.get('/milk', handleFileReadMilk);
+// app.post('/milk', handleFileSaveMilk);
+// app.get('/sleep', handleFileReadSleep);
+// app.post('/sleep', handleFileSaveSleep);
+// app.get('/profile/photo/:id', handleFileReadProfilePhoto);
+// app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);
+// app.put('/profile/photo/:id/edit', handleFileSaveEditPhoto);
+// app.get('/profile/:id/edit', handleFileReadProfileEdit);
+// app.put('/profile/:id/edit', handleFileSaveProfileEdit);
+// app.get('/profile/add', handleFileReadAddProfile);
+// app.post('/profile/add', handleFileSaveAddProfile);
+// app.get('/settings', handleFileReadSettings);
+// app.get('/forgetpassword', handleFileReadForgetPassword);
+
+app.listen(3004);
