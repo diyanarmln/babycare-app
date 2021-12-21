@@ -45,7 +45,20 @@ body {
   color: white;
 }
 
-.card-custom {
-  background-color: #282828;
-  color: white;
+div.center-cropped {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+div.center-cropped img {
+  width: 100%;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 25vw;
+  object-fit: cover;
 }
