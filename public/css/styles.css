@@ -1,5 +1,7 @@
 body {
   background-color: #ffe7ee;
+  padding-top: 14%;
+  padding-bottom: 16%;
 }
 
 .carousel-button-wrapper {
@@ -59,6 +61,16 @@ div.center-cropped img {
 
 .card-img-top {
   width: 100%;
-  height: 25vw;
+  height: 30vw;
   object-fit: cover;
+}
+
+.tiny {
+  font-size: 0.75rem;
+  color: white;
+  text-align: center;
+}
+
+.card-body-custom {
+  padding: 3.25rem;
 }
