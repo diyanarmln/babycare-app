@@ -44,3 +44,8 @@ body {
 .navbar-custom .navbar-text {
   color: white;
 }
+
+.card-custom {
+  background-color: #282828;
+  color: white;
+}
