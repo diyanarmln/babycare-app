@@ -1,0 +1,46 @@
+body {
+  background-color: #ffe7ee;
+}
+
+.carousel-button-wrapper {
+  position: absolute;
+  top: 160px;
+  right: 350px;
+  z-index: 999; /*not working */
+  pointer-events: auto;
+}
+
+.carousel-inner {
+  pointer-events: none;
+  z-index: 10;
+  width: 100%; /*this must stay */
+  height: 100%; /*this must stay */
+}
+
+.carousel-h1 {
+  position: absolute;
+  bottom: 88%;
+  color: white;
+  z-index: 10;
+  text-align: center;
+}
+
+.carousel-item:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.navbar-custom {
+  background-color: #282828;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: white;
+}

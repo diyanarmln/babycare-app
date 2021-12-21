@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -13,6 +12,8 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+
+    <link type="text/css" rel="stylesheet" href="/css/styles.css" />
 
     <script
       src="https://kit.fontawesome.com/ccb610ca92.js"
@@ -23,13 +24,15 @@
   </head>
   <body>
     <div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand navbar-custom">
         <a
           class="navbar-brand"
           style="font-weight: bold; font-family: sans-serif"
           href="/"
-          >Baby Care</a
         >
+          <i class="fas fa-baby"></i>
+          Baby Care
+        </a>
         <button
           class="navbar-toggler collapsed"
           type="button"
@@ -45,7 +48,7 @@
         <div class="navbar-collapse collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/">Features</a>
+              <a class="nav-link navbar-text" href="/">Features</a>
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">

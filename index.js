@@ -16,9 +16,10 @@ const pgConnectionConfigs = {
 const pool = new Pool(pgConnectionConfigs);
 
 const app = express();
+app.use(express.static('public'));
+
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
 // Override POST requests with query param ?_method=PUT to be PUT requests
 app.use(methodOverride('_method'));
 // Configure Express to parse request body data into request.body
