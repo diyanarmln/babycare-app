@@ -1,5 +1,5 @@
 body {
-  background-color: #ffe7ee;
+  background-color: #d1e3d9;
   padding-top: 8%;
   padding-bottom: 16%;
 }
@@ -91,4 +91,15 @@ div.center-cropped img {
 .home-headers {
   text-align: center;
   margin-top: 20px;
+}
+
+.btn-circle.btn-xl {
+  width: 140px;
+  height: 140px;
+  padding: 10px 16px;
+  font-size: 52px;
+  line-height: 1.33;
+  border-radius: 80px;
+  border-style: groove;
+  border-color: black;
 }

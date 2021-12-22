@@ -39,6 +39,10 @@ const handleFileReadLogin = (request, response) => {
   response.render('login');
 };
 
+const handleFileReadDashboard = (request, response) => {
+  response.render('dashboard');
+};
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
@@ -46,7 +50,7 @@ app.get('/signup', handleFileReadSignup);
 // app.post('/signup', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 // app.post('/login', handleFileCheckLogin);
-// app.get('/dashboard', handleFileReadDashboard);
+app.get('/dashboard', handleFileReadDashboard);
 // app.get('/soiled-diaper', handleFileReadSoiled);
 // app.post('/soiled-diaper', handleFileSaveSoiled);
 // app.get('/wet-diaper', handleFileReadWet);
