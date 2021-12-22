@@ -25,7 +25,7 @@ body {
 
 .carousel-h1 {
   position: absolute;
-  bottom: 30%;
+  bottom: 38%;
   left: 8%;
   color: white;
   z-index: 10;
@@ -47,7 +47,7 @@ body {
 .carousel-btn-custom {
   position: absolute;
   z-index: 999;
-  bottom: 18%;
+  bottom: 26%;
   left: 8%;
 }
 
@@ -86,4 +86,9 @@ div.center-cropped img {
 
 .card-body-custom {
   padding: 3.25rem;
+}
+
+.home-headers {
+  text-align: center;
+  margin-top: 20px;
 }

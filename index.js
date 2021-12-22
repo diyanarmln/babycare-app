@@ -31,10 +31,15 @@ const handleFileReadHome = (request, response) => {
   response.render('home');
 };
 
+const handleFileReadSignup = (request, response) => {
+  response.render('signup');
+};
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
-// app.get('/signup', handleFileReadSignup);
+
+app.get('/signup', handleFileReadSignup);
 // app.post('/signup', handleFileSaveSignup);
 // app.get('/login', handleFileReadHome);
 // app.post('/login', handleFileCheckLogin);
