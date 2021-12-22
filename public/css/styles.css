@@ -103,3 +103,9 @@ div.center-cropped img {
   border-style: groove;
   border-color: black;
 }
+
+.btn-custom-account {
+  font-size: 190%;
+  padding-right: 0.75rem;
+  color: white;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <link type="text/css" rel="stylesheet" href="/css/styles.css" />
+
+    <script
+      src="https://kit.fontawesome.com/ccb610ca92.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title><%= title %></title>
+  </head>
+  <body>
+    <div>
+      <nav class="navbar fixed-top navbar-expand navbar-custom">
+        <a
+          class="navbar-brand"
+          style="font-weight: bold; font-family: sans-serif"
+          href="/"
+        >
+          <i class="fas fa-baby"></i>
+          Baby Care
+        </a>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto my-2 my-lg-0">
+            <a class="btn btn-custom-account" href="...">
+              <i class="fas fa-user-circle"></i>
+            </a>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-light mr-2 btn-sm" href="/login" role="button"
+              >Logout</a
+            >
+          </form>
+        </div>
+      </nav>
+    </div>
+    <div class="content"></div>
+  </body>
+</html>
