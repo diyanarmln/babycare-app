@@ -67,6 +67,8 @@
         align-items-center
         justify-content-center
       "
+      data-toggle="modal"
+      data-target="#profilePhotoModal"
       style="
         position: relative;
         border-color: #1eaaf1;
@@ -85,7 +87,14 @@
   </div>
   <!-- profile name -->
   <div class="row justify-content-center">
-    <div class="profile-name">Nayla Sofea</div>
+    <button
+      class="profile-name"
+      data-toggle="modal"
+      data-target="#editProfileNameModal"
+      type="button"
+    >
+      Nayla Sofea
+    </button>
   </div>
 </div>
 
@@ -126,6 +135,7 @@
   </table>
 </div>
 
-<div><%- include('modal'); -%></div>
+<div><%- include('eventModal'); -%></div>
+<div><%- include('profileModal'); -%></div>
 
 <div><%- include('footer'); -%></div>
