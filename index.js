@@ -26,6 +26,22 @@ app.use(methodOverride('_method'));
 // Configure Express to parse request body data into request.body
 app.use(express.urlencoded({ extended: false }));
 
+// ============== helper functions ==============
+const SALT = 'everyday is awesome';
+
+const getHash = (input) => {
+  // create new SHA object
+  const shaObj = new jsSha('SHA-512', 'TEXT', { encoding: 'UTF8' });
+
+  // create an unhashed cookie string based on user ID and salt
+  const unhashedString = `${input}-${SALT}`;
+
+  // generate a hashed cookie string using SHA object
+  shaObj.update(unhashedString);
+
+  return shaObj.getHash('HEX');
+};
+
 // ============== route helper funtions ==============
 
 // render home page
@@ -93,12 +109,7 @@ const handleFileCheckLogin = (request, response) => {
 
     // get user record from results
     const user = result.rows[0];
-    // initialise SHA object
-    const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
-    // input the password from the request to the SHA object
-    shaObj.update(request.body.inputPassword);
-    // get the hashed value as output from the SHA object
-    const hashedPassword = shaObj.getHash('HEX');
+    const hashedPassword = getHash(request.body.inputPassword);
 
     // If the user's hashed password in the database does not match the hashed input password, login fails
     if (user.password !== hashedPassword) {
@@ -109,7 +120,15 @@ const handleFileCheckLogin = (request, response) => {
     }
 
     // The user's password hash matches that in the DB and we authenticate the user.
-    response.cookie('loggedIn', true);
+
+    // create an unhashed cookie string based on user ID and salt
+    const unhashedCookieString = `${user.id}-${SALT}`;
+    const hashedCookieString = getHash(unhashedCookieString);
+
+    // set the loggedInHash and userId cookies in the response
+    response.cookie('loggedInHash', hashedCookieString);
+    response.cookie('userId', user.id);
+    // end the request-response cycle
     response.redirect('/dashboard');
   });
 };
