@@ -128,17 +128,41 @@
       <tr>
         <th scope="row">1</th>
         <td>Mark</td>
-        <td>Otto</td>
+        <td class="col-delete">
+          Otto
+          <form
+            action="..."
+            onclick="return confirm('Are you sure you want to delete this report?')"
+          >
+            <i class="fas fa-minus-circle"></i>
+          </form>
+        </td>
       </tr>
       <tr>
         <th scope="row">2</th>
         <td>Jacob</td>
-        <td>Thornton</td>
+        <td class="col-delete">
+          Thornton
+          <form
+            action="..."
+            onclick="return confirm('Are you sure you want to delete this report?')"
+          >
+            <i class="fas fa-minus-circle"></i>
+          </form>
+        </td>
       </tr>
       <tr>
         <th scope="row">3</th>
         <td>Larry</td>
-        <td>the Bird</td>
+        <td class="col-delete">
+          The Bird
+          <form
+            action="..."
+            onclick="return confirm('Are you sure you want to delete this report?')"
+          >
+            <i class="fas fa-minus-circle"></i>
+          </form>
+        </td>
       </tr>
     </tbody>
   </table>
