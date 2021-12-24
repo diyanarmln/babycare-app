@@ -3,26 +3,30 @@
 <br />
 <div class="container">
   <div style="padding: 5% 0">
-    <h2 style:"text-align: center;">Create your account</h2>
+    <h2 style="text-align: center;">Create your account</h2>
   </div>
 
-  <form>
+  <form name="signupForm" action="/login" method="POST">
     <div class="row">
       <div class="col">
-        <input type="text" class="form-control" placeholder="First name" />
+        <label for="inputFirstName"></label>
+        <input id="inputFirstName" type="text" name="inputFirstName" class="form-control" placeholder="First name" required/>
       </div>
       <div class="col">
-        <input type="text" class="form-control" placeholder="Last name" />
+        <label for="inputLastName"></label>
+        <input id="inputLastName" type="text" name="inputLastName" class="form-control" placeholder="Last name" required/>
       </div>
     </div>
     <div>
       <label for="inputEmail"></label>
       <input
+        name="inputEmail"
         type="email"
         class="form-control"
         id="inputEmail"
         aria-describedby="emailHelp"
         placeholder="Email address"
+        required
       />
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
       </small>
@@ -33,7 +37,9 @@
           type="password"
           class="form-control"
           id="inputPassword"
+          name="inputPassword"
           placeholder="Password"
+          required
       />
       <small id="passwordHelp" class="form-text text-muted">Your password must be between 8-20 characters long.
       </small>
@@ -47,7 +53,7 @@
     </div>
     <br />
     <button type="submit" class="btn btn-primary">Register</button>
-    <a class="btn btn-outline-secondary" href="..." role="button">Cancel</a>
+    <a class="btn btn-outline-secondary" href="/" role="button">Cancel</a>
   </form>
 </div>
 

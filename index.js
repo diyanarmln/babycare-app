@@ -27,18 +27,43 @@ app.use(express.urlencoded({ extended: false }));
 
 // ============== route helper funtions ==============
 
+// render home page
 const handleFileReadHome = (request, response) => {
   response.render('home');
 };
 
+// render signup page
 const handleFileReadSignup = (request, response) => {
   response.render('signup');
 };
 
+// save new account registration via POST request from our form
+const handleFileSaveSignup = (request, response) => {
+  const content = request.body;
+
+  const inputData = [content.inputFirstName, content.inputLastName, content.inputEmail, content.inputPassword];
+
+  const sqlInsert = 'INSERT INTO account (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
+
+  pool.query(sqlInsert, inputData, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury inserted', result);
+
+    response.redirect('/login');
+  });
+};
+
+// render login page
 const handleFileReadLogin = (request, response) => {
   response.render('login');
 };
 
+// render dashboard page
 const handleFileReadDashboard = (request, response) => {
   response.render('dashboard');
 };
@@ -47,7 +72,7 @@ const handleFileReadDashboard = (request, response) => {
 
 app.get('/', handleFileReadHome);
 app.get('/signup', handleFileReadSignup);
-// app.post('/signup', handleFileSaveSignup);
+app.post('/login', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 // app.post('/login', handleFileCheckLogin);
 app.get('/dashboard', handleFileReadDashboard);
