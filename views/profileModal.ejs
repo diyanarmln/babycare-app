@@ -57,7 +57,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Profile Name</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Baby Profile</h5>
         <button
           type="button"
           class="close"
@@ -71,13 +71,91 @@
         <!-- modal content -->
         <form>
           <div class="form-group">
-            <label for="editProfileName"></label>
+            <label for="editProfileName">Baby's Name</label>
             <input
               type="text"
               class="form-control"
               id="editProfileName"
               placeholder="Enter profile name"
             />
+            <br />
+            <label for="editBirthDate">Date of Birth</label>
+            <input
+              type="date"
+              class="form-control"
+              id="editBirthDate"
+              placeholder="Enter date of birth"
+            />
+            <br />
+            <label for="editBabyGender">Gender</label>
+            <select class="custom-select">
+              <option selected>Select</option>
+              <option value="1">Male</option>
+              <option value="2">Female</option>
+              <option value="3">Surprise</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add profile -->
+<div
+  class="modal fade"
+  id="addProfileModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addProfileModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Baby Profile</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form>
+          <div class="form-group">
+            <label for="inputProfileName">Baby's Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputProfileName"
+              placeholder="Enter profile name"
+            />
+            <br />
+            <label for="inputBirthDate">Date of Birth</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inputBirthDate"
+              placeholder="Enter date of birth"
+            />
+            <br />
+            <label for="inputBabyGender">Gender</label>
+            <select class="custom-select">
+              <option selected>Select</option>
+              <option value="1">Male</option>
+              <option value="2">Female</option>
+              <option value="3">Surprise</option>
+            </select>
           </div>
         </form>
       </div>

@@ -10,6 +10,10 @@ body {
   }
 }
 
+.add-profile {
+  top: -6%;
+}
+
 .profile-name {
   font-size: 130%;
   background-color: #1eaaf1;
@@ -17,10 +21,13 @@ body {
   border-style: solid;
   border-color: #1eaaf1;
   border-width: 2px 10px;
-  position: absolute;
-  top: 70%;
+  /* position: absolute; */
+  /* top: 70%; */
   color: white;
   cursor: pointer;
+  /* right: 50%;*/
+  margin-top: -10px;
+  z-index: 0;
 }
 
 .profile-photo {
