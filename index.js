@@ -71,6 +71,49 @@ const handleFileReadLogin = (request, response) => {
   response.render('login');
 };
 
+// authenticate user login
+const handleFileCheckLogin = (request, response) => {
+  // retrieve the user entry using their email
+  const values = [request.body.inputEmail];
+  pool.query('SELECT * from account WHERE email=$1', values, (error, result) => {
+    // return if there is a query error
+    if (error) {
+      console.log('Error executing query', error.stack);
+      response.status(503).send(result.rows);
+      return;
+    }
+
+    // we didnt find a user with that email
+    if (result.rows.length === 0) {
+      // the error for incorrect email and incorrect password are the same for security reasons.
+      // This is to prevent detection of whether a user has an account for a given service.
+      response.status(403).send('login failed!');
+      return;
+    }
+
+    // get user record from results
+    const user = result.rows[0];
+    // initialise SHA object
+    const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+    // input the password from the request to the SHA object
+    shaObj.update(request.body.inputPassword);
+    // get the hashed value as output from the SHA object
+    const hashedPassword = shaObj.getHash('HEX');
+
+    // If the user's hashed password in the database does not match the hashed input password, login fails
+    if (user.password !== hashedPassword) {
+      // the error for incorrect email and incorrect password are the same for security reasons.
+      // This is to prevent detection of whether a user has an account for a given service.
+      response.status(403).send('login failed!');
+      return;
+    }
+
+    // The user's password hash matches that in the DB and we authenticate the user.
+    response.cookie('loggedIn', true);
+    response.redirect('/dashboard');
+  });
+};
+
 // render dashboard page
 const handleFileReadDashboard = (request, response) => {
   response.render('dashboard');
@@ -82,7 +125,7 @@ app.get('/', handleFileReadHome);
 app.get('/signup', handleFileReadSignup);
 app.post('/login', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
-// app.post('/login', handleFileCheckLogin);
+app.post('/dashboard', handleFileCheckLogin);
 app.get('/dashboard', handleFileReadDashboard);
 // app.get('/soiled-diaper', handleFileReadSoiled);
 // app.post('/soiled-diaper', handleFileSaveSoiled);

@@ -6,13 +6,14 @@
     <h2 style="text-align: center;">Log in to your account</h2>
   </div>
 
-  <form>
+  <form name="loginForm" action="/dashboard" method="POST">
     <div class="form-group">
       <label for="inputEmail">Email Address</label>
       <input
         type="email"
         class="form-control"
         id="inputEmail"
+        name="inputEmail"
         aria-describedby="emailHelp"
         placeholder="Enter email"
       />
@@ -24,6 +25,7 @@
           type="password"
           class="form-control"
           id="inputPassword"
+          name="inputPassword"
           placeholder="Password"
       />
       <small>
