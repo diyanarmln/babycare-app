@@ -4,6 +4,7 @@ import express, { request, response } from 'express';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import pg from 'pg';
+import jsSHA from 'jssha';
 
 // Initialise DB connection
 const { Pool } = pg;
@@ -41,7 +42,14 @@ const handleFileReadSignup = (request, response) => {
 const handleFileSaveSignup = (request, response) => {
   const content = request.body;
 
-  const inputData = [content.inputFirstName, content.inputLastName, content.inputEmail, content.inputPassword];
+  // initialise the SHA object
+  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  // input the password from the request to the SHA object
+  shaObj.update(request.body.inputPassword);
+  // get the hashed password as output from the SHA object
+  const hashedPassword = shaObj.getHash('HEX');
+
+  const inputData = [content.inputFirstName, content.inputLastName, content.inputEmail, hashedPassword];
 
   const sqlInsert = 'INSERT INTO account (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
 
