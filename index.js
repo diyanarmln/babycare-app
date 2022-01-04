@@ -124,17 +124,42 @@ const handleFileCheckLogin = (request, response) => {
     const unhashedCookieString = `${user.id}-${SALT}`;
     const hashedCookieString = getHash(unhashedCookieString);
 
+    const userID = user.account_id;
+
     // set the loggedInHash and userId cookies in the response
     response.cookie('loggedInHash', hashedCookieString);
     response.cookie('userId', user.id);
     // end the request-response cycle
-    response.redirect('/dashboard');
+    response.redirect(`/dashboard/${userID}`);
   });
 };
 
-// render dashboard page
+// render dashboard page ========= TO DELETE
 const handleFileReadDashboard = (request, response) => {
   response.render('dashboard');
+};
+
+// save soiled diaper event via POST request from form
+const handleFileSaveSoiled = (request, response) => {
+  const content = request.body;
+  console.log(content);
+  const eventId = 1;
+
+  const inputData = [content.inputSoiledDate, content.inputSoiledTime, eventId, content.inputSoiledColour];
+
+  const sqlInsert = 'INSERT INTO log (date, time, event_id, stool_colour) VALUES ($1, $2, $3, $4)';
+
+  pool.query(sqlInsert, inputData, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury inserted', result);
+
+    response.redirect('/dashboard');
+  });
 };
 
 // ============== routes ==============
@@ -144,8 +169,8 @@ app.get('/signup', handleFileReadSignup);
 app.post('/login', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 app.post('/dashboard', handleFileCheckLogin);
-app.get('/dashboard', handleFileReadDashboard);
-// app.post('/dashboard', handleFileSaveSoiled);
+app.get('/dashboard/:accountid', handleFileReadDashboard);
+app.post('/soiled', handleFileSaveSoiled);
 
 // app.post('/dashboard', handleFileSaveWet);
 // app.post('/dashboard', handleFileSaveMilk);
