@@ -110,11 +110,7 @@
 <!-- log table -->
 <div class="container" style="padding: 20px 10px">
   <table
-    class="
-      table
-      justify-content-center
-      table-striped table-hover table-bordered
-    "
+    class="table justify-content-center table-striped table-hover"
     style="font-size: 90%"
   >
     <thead class="thead-custom">
@@ -122,14 +118,16 @@
         <th scope="col">Date</th>
         <th scope="col">Time</th>
         <th scope="col">Event</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr data-toggle="modal" data-target="#addProfileModal">
+      <tr data-toggle="modal" data-target="#editLogModal">
         <th scope="row">1</th>
         <td>Mark</td>
+        <td>Otto</td>
+
         <td class="col-delete">
-          Otto
           <form
             action="..."
             onclick="return confirm('Are you sure you want to delete this event?')"
@@ -141,8 +139,8 @@
       <tr>
         <th scope="row">2</th>
         <td>Jacob</td>
+        <td>Thornton</td>
         <td class="col-delete">
-          Thornton
           <form
             action="..."
             onclick="return confirm('Are you sure you want to delete this report?')"
@@ -154,8 +152,9 @@
       <tr>
         <th scope="row">3</th>
         <td>Larry</td>
+        <td>The Bird</td>
+
         <td class="col-delete">
-          The Bird
           <form
             action="..."
             onclick="return confirm('Are you sure you want to delete this report?')"

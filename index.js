@@ -5,6 +5,7 @@ import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import pg from 'pg';
 import jsSHA from 'jssha';
+import multer from 'multer';
 
 // Initialise DB connection
 const { Pool } = pg;
@@ -144,14 +145,12 @@ app.post('/login', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 app.post('/dashboard', handleFileCheckLogin);
 app.get('/dashboard', handleFileReadDashboard);
-// app.get('/soiled-diaper', handleFileReadSoiled);
-// app.post('/soiled-diaper', handleFileSaveSoiled);
-// app.get('/wet-diaper', handleFileReadWet);
-// app.post('/wet-diaper', handleFileSaveWet);
-// app.get('/milk', handleFileReadMilk);
-// app.post('/milk', handleFileSaveMilk);
-// app.get('/sleep', handleFileReadSleep);
-// app.post('/sleep', handleFileSaveSleep);
+// app.post('/dashboard', handleFileSaveSoiled);
+
+// app.post('/dashboard', handleFileSaveWet);
+// app.post('/dashboard', handleFileSaveMilk);
+// app.post('/dashboard', handleFileSaveSleep);
+
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);
 // app.put('/profile/photo/:id/edit', handleFileSaveEditPhoto);
