@@ -31,7 +31,7 @@ const SALT = 'everyday is awesome';
 
 const getHash = (input) => {
   // create new SHA object
-  const shaObj = new jsSha('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
 
   // create an unhashed cookie string based on user ID and salt
   const unhashedString = `${input}-${SALT}`;
@@ -58,12 +58,8 @@ const handleFileReadSignup = (request, response) => {
 const handleFileSaveSignup = (request, response) => {
   const content = request.body;
 
-  // initialise the SHA object
-  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
-  // input the password from the request to the SHA object
-  shaObj.update(request.body.inputPassword);
-  // get the hashed password as output from the SHA object
-  const hashedPassword = shaObj.getHash('HEX');
+  // hash the password
+  const hashedPassword = getHash(request.body.inputPassword);
 
   const inputData = [content.inputFirstName, content.inputLastName, content.inputEmail, hashedPassword];
 
@@ -92,6 +88,7 @@ const handleFileCheckLogin = (request, response) => {
   // retrieve the user entry using their email
   const values = [request.body.inputEmail];
   pool.query('SELECT * from account WHERE email=$1', values, (error, result) => {
+    console.log('login', result);
     // return if there is a query error
     if (error) {
       console.log('Error executing query', error.stack);
@@ -110,6 +107,7 @@ const handleFileCheckLogin = (request, response) => {
     // get user record from results
     const user = result.rows[0];
     const hashedPassword = getHash(request.body.inputPassword);
+    console.log(hashedPassword);
 
     // If the user's hashed password in the database does not match the hashed input password, login fails
     if (user.password !== hashedPassword) {
