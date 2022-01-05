@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import pg from 'pg';
 import jsSHA from 'jssha';
 import multer from 'multer';
+import axios from 'axios';
 
 // Initialise DB connection
 const { Pool } = pg;
@@ -142,13 +143,16 @@ const handleFileReadDashboard = (request, response) => {
 
 // save soiled diaper event via POST request from form
 const handleFileSaveSoiled = (request, response) => {
+  console.log('request', request.params);
   const content = request.body;
-  console.log(content);
   const eventId = 1;
+  console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
 
-  const inputData = [content.inputSoiledDate, content.inputSoiledTime, eventId, content.inputSoiledColour];
+  const inputData = [profile, content.inputSoiledDate, content.inputSoiledTime, eventId, content.inputSoiledColour];
 
-  const sqlInsert = 'INSERT INTO log (date, time, event_id, stool_colour) VALUES ($1, $2, $3, $4)';
+  const sqlInsert = 'INSERT INTO log (profile_id, date, time, event_id, stool_colour) VALUES ($1, $2, $3, $4, $5)';
 
   pool.query(sqlInsert, inputData, (error, result) => {
     if (error) {
@@ -159,7 +163,33 @@ const handleFileSaveSoiled = (request, response) => {
 
     console.log('qeury inserted', result);
 
-    response.redirect('/dashboard');
+    response.redirect(`/dashboard/${user}/${profile}`);
+  });
+};
+
+// save wet diaper event via POST request from form
+const handleFileSaveWet = (request, response) => {
+  console.log('request', request.params);
+  const content = request.body;
+  const eventId = 2;
+  console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+
+  const inputData = [profile, content.inputWetDate, content.inputWetTime, eventId, content.inputWetWeight];
+
+  const sqlInsert = 'INSERT INTO log (profile_id, date, time, event_id, nappy_weight) VALUES ($1, $2, $3, $4, $5)';
+
+  pool.query(sqlInsert, inputData, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury inserted', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
   });
 };
 
@@ -167,11 +197,12 @@ const handleFileSaveSoiled = (request, response) => {
 
 app.get('/', handleFileReadHome);
 app.get('/signup', handleFileReadSignup);
-app.post('/login', handleFileSaveSignup);
+app.post('/signup', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
-app.post('/dashboard', handleFileCheckLogin);
+app.post('/login', handleFileCheckLogin);
 app.get('/dashboard/:user/:profile', handleFileReadDashboard);
-app.post('/soiled', handleFileSaveSoiled);
+app.post('/dashboard/:user/:profile', handleFileSaveSoiled);
+app.post('/dashboard/:user/:profile', handleFileSaveWet);
 
 // app.post('/dashboard', handleFileSaveWet);
 // app.post('/dashboard', handleFileSaveMilk);
