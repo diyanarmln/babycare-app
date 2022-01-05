@@ -88,7 +88,7 @@ const handleFileReadLogin = (request, response) => {
 const handleFileCheckLogin = (request, response) => {
   // retrieve the user entry using their email
   const values = [request.body.inputEmail];
-  pool.query('SELECT * from account WHERE email=$1', values, (error, result) => {
+  pool.query('SELECT * from account LEFT JOIN profile ON profile.account_id = account.account_id WHERE email=$1;', values, (error, result) => {
     console.log('login', result);
     // return if there is a query error
     if (error) {
@@ -125,12 +125,13 @@ const handleFileCheckLogin = (request, response) => {
     const hashedCookieString = getHash(unhashedCookieString);
 
     const userID = user.account_id;
+    const profileID = user.profile_id;
 
     // set the loggedInHash and userId cookies in the response
     response.cookie('loggedInHash', hashedCookieString);
     response.cookie('userId', user.id);
     // end the request-response cycle
-    response.redirect(`/dashboard/${userID}`);
+    response.redirect(`/dashboard/${userID}/${profileID}`);
   });
 };
 
@@ -169,7 +170,7 @@ app.get('/signup', handleFileReadSignup);
 app.post('/login', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 app.post('/dashboard', handleFileCheckLogin);
-app.get('/dashboard/:accountid', handleFileReadDashboard);
+app.get('/dashboard/:user/:profile', handleFileReadDashboard);
 app.post('/soiled', handleFileSaveSoiled);
 
 // app.post('/dashboard', handleFileSaveWet);
