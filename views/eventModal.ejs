@@ -22,7 +22,11 @@
       </div>
       <div class="modal-body">
         <!-- modal content -->
-        <form name="soiledDiaperForm" method="POST">
+        <form
+          name="soiledDiaperForm"
+          action="/dashboard/5/1/soiled"
+          method="POST"
+        >
           <div class="form-group">
             <label for="inputSoiledDate">Date</label>
             <input
@@ -68,61 +72,67 @@
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
-        </div>
+      </div>
     </div>
   </div>
 </div>
 
-  <!-- Modal for wet nappy event-->
-  <div
-    class="modal fade"
-    id="wetNappyModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="wetNappyModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Wet Nappy</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- modal content -->
-          <form name="wetDiaperForm" method="POST">
-            <div class="form-group">
-              <label for="inputWetDate">Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="inputWetDate"
-                placeholder="Enter date of wet nappy"
-              />
-              <br />
-              <label for="inputWetTime">Time</label>
-              <input
-                type="time"
-                class="form-control"
-                id="inputWetTime"
-                placeholder="Enter time of wet nappy"
-              />
-              <br />
-              <label for="inputWetWeight">Weight</label>
-              <select class="custom-select">
-                <option selected>Select</option>
-                <option value="1">Light</option>
-                <option value="2">Moderate</option>
-                <option value="3">Heavy</option>
-              </select>
-            </div>
+<!-- Modal for wet nappy event-->
+<div
+  class="modal fade"
+  id="wetNappyModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="wetNappyModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Wet Nappy</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form name="wetDiaperForm" action="/dashboard/5/1/wet" method="POST">
+          <div class="form-group">
+            <label for="inputWetDate">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inputWetDate"
+              name="inputWetDate"
+              placeholder="Enter date of wet nappy"
+            />
+            <br />
+            <label for="inputWetTime">Time</label>
+            <input
+              type="time"
+              class="form-control"
+              id="inputWetTime"
+              name="inputWetTime"
+              placeholder="Enter time of wet nappy"
+            />
+            <br />
+            <label for="inputWetWeight">Weight</label>
+            <select
+              class="custom-select"
+              id="inputWetWeight"
+              name="inputWetWeight"
+            >
+              <option selected>Select</option>
+              <option value="1">Light</option>
+              <option value="2">Moderate</option>
+              <option value="3">Heavy</option>
+            </select>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -134,147 +144,165 @@
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
-        </div>
+      </div>
     </div>
   </div>
 </div>
 
-  <!-- Modal for milk event-->
-  <div
-    class="modal fade"
-    id="milkModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="milkModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Milk Feed</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- modal content -->
-          <form>
-            <div class="form-group">
-              <label for="inputMilkDate">Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="inputMilkDate"
-                placeholder="Enter feeding date"
-              />
-              <br />
-              <label for="inputMilkTime">Time</label>
-              <input
-                type="time"
-                class="form-control"
-                id="inputMilkTime"
-                placeholder="Enter feeding time"
-              />
-              <br />
-              <label for="inputMilkQty">Quantity (ml)</label>
-              <input
-                type="number"
-                class="form-control"
-                id="inputMilkQty"
-                placeholder="Enter quantity of milk fed"
-              />
-              <br />
-              <label for="inputMilkReminder">Next reminder in:</label>
-              <select class="custom-select">
-                <option selected>Select</option>
-                <option value="1">30 minutes</option>
-                <option value="2">1 hour</option>
-                <option value="3">2 hours</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Submit</button>
-        </div>
+<!-- Modal for milk event-->
+<div
+  class="modal fade"
+  id="milkModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="milkModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Milk Feed</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form name="milkForm" action="/dashboard/5/1/milk" method="POST">
+          <div class="form-group">
+            <label for="inputMilkDate">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inputMilkDate"
+              name="inputMilkDate"
+              placeholder="Enter feeding date"
+            />
+            <br />
+            <label for="inputMilkTime">Time</label>
+            <input
+              type="time"
+              class="form-control"
+              id="inputMilkTime"
+              name="inputMilkTime"
+              placeholder="Enter feeding time"
+            />
+            <br />
+            <label for="inputMilkQty">Quantity (ml)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="inputMilkQty"
+              name="inputMilkQty"
+              placeholder="Enter quantity of milk fed"
+            />
+            <br />
+            <label for="inputMilkReminder">Next reminder in:</label>
+            <select
+              class="custom-select"
+              id="inputMilkReminder"
+              name="inputMilkReminder"
+            >
+              <option selected>Select</option>
+              <option value="1">30 minutes</option>
+              <option value="2">1 hour</option>
+              <option value="3">2 hours</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal for sleep event-->
-  <div
-    class="modal fade"
-    id="sleepModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="sleepModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Sleep</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- modal content -->
-          <form>
-            <div class="form-group">
-              <label for="inputSleepStartDate">Start Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="inputSleepStartDate"
-                placeholder="Enter sleep start date"
-              />
-              <br />
-              <label for="inputSleepStartTime">Start Time</label>
-              <input
-                type="time"
-                class="form-control"
-                id="inputSleepStartTime"
-                placeholder="Enter sleep start time"
-              />
-              <br />
-              <label for="inputSleepEndDate">End Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="inputSleepEndDate"
-                placeholder="Enter sleep end date"
-              />
-              <br />
-              <label for="inputSleepEndTime">End Time</label>
-              <input
-                type="time"
-                class="form-control"
-                id="inputSleepEndTime"
-                placeholder="Enter sleep end time"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Submit</button>
-        </div>
+<!-- Modal for sleep event-->
+<div
+  class="modal fade"
+  id="sleepModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="sleepModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sleep</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form name="sleepForm" action="/dashboard/5/1/sleep" method="POST">
+          <div class="form-group">
+            <label for="inputSleepStartDate">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inputSleepStartDate"
+              name="inputSleepStartDate"
+              placeholder="Enter sleep start date"
+            />
+            <br />
+            <label for="inputSleepStartTime">Start Time</label>
+            <input
+              type="time"
+              class="form-control"
+              id="inputSleepStartTime"
+              name="inputSleepStartTime"
+              placeholder="Enter sleep start time"
+            />
+            <br />
+            <label for="inputSleepEndDate">End Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inputSleepEndDate"
+              name="inputSleepEndDate"
+              placeholder="Enter sleep end date"
+            />
+            <br />
+            <label for="inputSleepEndTime">End Time</label>
+            <input
+              type="time"
+              class="form-control"
+              id="inputSleepEndTime"
+              name="inputSleepEndTime"
+              placeholder="Enter sleep end time"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

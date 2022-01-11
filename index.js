@@ -177,6 +177,7 @@ const handleFileSaveWet = (request, response) => {
   const { profile } = request.params;
 
   const inputData = [profile, content.inputWetDate, content.inputWetTime, eventId, content.inputWetWeight];
+  // console.log('wet', inputData);
 
   const sqlInsert = 'INSERT INTO log (profile_id, date, time, event_id, nappy_weight) VALUES ($1, $2, $3, $4, $5)';
 
@@ -187,7 +188,61 @@ const handleFileSaveWet = (request, response) => {
       return;
     }
 
-    console.log('qeury inserted', result);
+    console.log('qeury inserted wet', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  });
+};
+
+// save milk event via POST request from form
+const handleFileSaveMilk = (request, response) => {
+  console.log('request', request.params);
+  const content = request.body;
+  const eventId = 3;
+  console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+
+  const inputData = [profile, content.inputMilkDate, content.inputMilkTime, eventId, content.inputMilkQty];
+  // console.log('wet', inputData);
+
+  const sqlInsert = 'INSERT INTO log (profile_id, date, time, event_id, milk_qty) VALUES ($1, $2, $3, $4, $5)';
+
+  pool.query(sqlInsert, inputData, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury inserted milk', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  });
+};
+
+// save sleep event via POST request from form
+const handleFileSaveSleep = (request, response) => {
+  console.log('request', request.params);
+  const content = request.body;
+  const eventId = 4;
+  console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+
+  const inputData = [profile, content.inputSleepStartDate, content.inputSleepStartTime, eventId, content.inputSleepEndDate, content.inputSleepEndTime];
+  // console.log('wet', inputData);
+
+  const sqlInsert = 'INSERT INTO log (profile_id, date, time, event_id, end_date, end_time) VALUES ($1, $2, $3, $4, $5, $6)';
+
+  pool.query(sqlInsert, inputData, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury inserted sleep', result);
 
     response.redirect(`/dashboard/${user}/${profile}`);
   });
@@ -200,13 +255,12 @@ app.get('/signup', handleFileReadSignup);
 app.post('/signup', handleFileSaveSignup);
 app.get('/login', handleFileReadLogin);
 app.post('/login', handleFileCheckLogin);
-app.get('/dashboard/:user/:profile', handleFileReadDashboard);
-app.post('/dashboard/:user/:profile', handleFileSaveSoiled);
-app.post('/dashboard/:user/:profile', handleFileSaveWet);
 
-// app.post('/dashboard', handleFileSaveWet);
-// app.post('/dashboard', handleFileSaveMilk);
-// app.post('/dashboard', handleFileSaveSleep);
+app.get('/dashboard/:user/:profile', handleFileReadDashboard);
+app.post('/dashboard/:user/:profile/soiled', handleFileSaveSoiled);
+app.post('/dashboard/:user/:profile/wet', handleFileSaveWet);
+app.post('/dashboard/:user/:profile/milk', handleFileSaveMilk);
+app.post('/dashboard/:user/:profile/sleep', handleFileSaveSleep);
 
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);

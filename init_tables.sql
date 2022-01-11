@@ -33,3 +33,5 @@ CREATE TABLE IF NOT EXISTS log (
   end_date DATE,
   end_time TIME
 );
+
+INSERT INTO event (event_name) VALUES ('soiled-diaper'),('wet-diaper'),('feed'),('sleep');
