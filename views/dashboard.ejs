@@ -116,29 +116,16 @@
       <tr
         class="rowEdit"
         data-toggle="modal"
-        data-id="<%= row.log_id %>"
         data-target="#editModal<%= row.event_id %>"
       >
         <td class="date">
-          <%= row.date.toLocaleString('en-US', { day:'numeric', month: 'short',
-          hour: 'numeric', minute: 'numeric', hour12: true }) %>
+          <%= new Date(row.date).toLocaleString('en-US', { day:'numeric', month:
+          'short', hour: 'numeric', minute: 'numeric', hour12: true }) %>
         </td>
         <td><%= row.event_name %></td>
         <td style="display: none"><%= row.log_id %></td>
         <td style="display: none"><%= row.stool_colour %></td>
         <td class="col-delete">
-          <!-- <button
-            type="button"
-            class="
-              bbtn
-              btn-sm btn-primary
-              editingTRbutton
-              fas
-              fa-pencil-alt
-              noUnderlineCustom
-              text-white
-            "
-          ></button> -->
           <form
             action="..."
             onclick="return confirm('Are you sure you want to delete this event?')"
@@ -168,7 +155,6 @@
       //I get the value from the cells (td) using the parentNode (var tr)
       var date = new Date(tr.cells[0].textContent);
       var newDate = date.toISOString().substring(0, 19);
-      console.log(newDate);
       var id = tr.cells[2].textContent;
       var level = tr.cells[3].textContent;
 
@@ -179,11 +165,7 @@
       //If you need to update the form data and change the button link
       $("form#editSoiledDiaperForm").attr(
         "action",
-        window.location.href + "/soiled/" + id
-      );
-      $("a#saveEditSoiledEvent").attr(
-        "href",
-        window.location.href + "/update/" + id
+        window.location.href + `/${id}` + "/soiled?_method=PUT"
       );
     });
   });

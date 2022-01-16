@@ -183,13 +183,12 @@ const handleFileReadDashboard = (request, response) => {
         console.log('DB write error', error.stack);
       }
 
-      console.log('result2', result2);
       const { filename } = result2.rows[0];
-      console.log('filename', filename);
 
       if (filename === null) {
         result.filename = 'f218e10bc15659da214dc95a5a83695d';
         result.url = request.url;
+
         // console.log('final', result);
 
         response.render('dashboard', result);
@@ -198,8 +197,6 @@ const handleFileReadDashboard = (request, response) => {
 
       result.filename = filename;
       result.url = request.url;
-      // console.log('final', result);
-
       response.render('dashboard', result);
     });
 
@@ -337,8 +334,27 @@ const handlePhotoUpload = (request, response) => {
 };
 
 const handleSoiledEventEdit = (request, response) => {
-  console.log('x');
-};
+  const content = request.body;
+  // console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+  const { log } = request.params;
+
+  console.log(content.inputSoiledDate);
+
+  const sqlUpdate = `UPDATE log SET date = '${content.editSoiledDate}', stool_colour = '${content.editSoiledColour}' WHERE log_id = '${log}';`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury updated', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  }); };
 
 // $(document).on('click', '.open-AddBookDialog', function () {
 //   const myBookId = $(this).data('id');
@@ -389,7 +405,7 @@ app.post('/dashboard/:user/:profile/milk', handleFileSaveMilk);
 app.post('/dashboard/:user/:profile/sleep', handleFileSaveSleep);
 app.post('/dashboard/:user/:profile/profile-photo', multerUpload.single('customFileInput'), handlePhotoUpload);
 
-app.put('/dashboard/:user/:profile/soiled', handleSoiledEventEdit);
+app.put('/dashboard/:user/:profile/:log/soiled', handleSoiledEventEdit);
 
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);

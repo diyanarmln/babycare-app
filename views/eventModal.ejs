@@ -31,6 +31,7 @@
               id="inputSoiledDate"
               name="inputSoiledDate"
               placeholder="Enter date and time of soiled nappy"
+              required
             />
             <br />
             <label for="inputSoiledColour">Stool Colour</label>
@@ -97,6 +98,7 @@
               id="inputWetDate"
               name="inputWetDate"
               placeholder="Enter date and time of wet nappy"
+              required
             />
             <br />
             <label for="inputWetWeight">Weight</label>
@@ -160,6 +162,7 @@
               id="inputMilkDate"
               name="inputMilkDate"
               placeholder="Enter feeding date and time"
+              required
             />
             <br />
             <label for="inputMilkQty">Quantity (ml)</label>
@@ -232,6 +235,7 @@
               id="inputSleepStartDate"
               name="inputSleepStartDate"
               placeholder="Enter sleep start date and time"
+              required
             />
             <br />
             <label for="inputSleepEndDate">End Date</label>
@@ -285,8 +289,9 @@
       <div class="modal-body">
         <!-- modal content -->
         <form
+          id="editSoiledDiaperForm"
           name="editSoiledDiaperForm"
-          action="/dashboard/5/1/soiled?_method=PUT"
+          action=""
           method="POST"
         >
           <div class="form-group editSoiledDiaperForm">
