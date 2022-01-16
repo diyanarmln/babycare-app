@@ -69,20 +69,8 @@
       "
       data-toggle="modal"
       data-target="#profilePhotoModal"
-      style="
-        position: relative;
-        border-color: #1eaaf1;
-        border-style: double;
-        width: 130px;
-        height: 130px;
-      "
-      href="..."
-      role="button"
     >
-      <img
-        style="width: 80%"
-        src="https://cdn-icons-png.flaticon.com/512/3282/3282468.png"
-      />
+      <img src="/<%= rows[0].filename %>" class="profile-photo-img" />
     </a>
   </div>
   <!-- profile name -->
@@ -98,7 +86,7 @@
 
     <a
       href="..."
-      class="add-profile profile-name"
+      class="add-profile"
       data-toggle="modal"
       data-target="#addProfileModal"
     >
@@ -110,24 +98,45 @@
 <!-- log table -->
 <div class="container" style="padding: 20px 10px">
   <table
-    class="table justify-content-center table-striped table-hover"
+    id="logTable"
+    class="table log-table justify-content-center table-striped table-hover"
     style="font-size: 90%"
   >
     <thead class="thead-custom">
       <tr>
         <th scope="col">Date</th>
-        <th scope="col">Time</th>
         <th scope="col">Event</th>
+        <th style="display: none">logId</th>
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr data-toggle="modal" data-target="#editLogModal">
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-
+    <tbody id="logBody">
+      <% rows.forEach((row)=>{ %>
+      <tr
+        class="rowEdit"
+        data-toggle="modal"
+        data-id="<%= row.log_id %>"
+        data-target="#editModal<%= row.event_id %>"
+      >
+        <td class="date">
+          <%= row.date.toLocaleString('en-US', { day:'numeric', month: 'short',
+          hour: 'numeric', minute: 'numeric', hour12: true }) %>
+        </td>
+        <td><%= row.event_name %></td>
+        <td style="display: none"><%= row.log_id %></td>
         <td class="col-delete">
+          <!-- <button
+            type="button"
+            class="
+              bbtn
+              btn-sm btn-primary
+              editingTRbutton
+              fas
+              fa-pencil-alt
+              noUnderlineCustom
+              text-white
+            "
+          ></button> -->
           <form
             action="..."
             onclick="return confirm('Are you sure you want to delete this event?')"
@@ -136,33 +145,7 @@
           </form>
         </td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td class="col-delete">
-          <form
-            action="..."
-            onclick="return confirm('Are you sure you want to delete this report?')"
-          >
-            <i class="fas fa-minus-circle"></i>
-          </form>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>The Bird</td>
-
-        <td class="col-delete">
-          <form
-            action="..."
-            onclick="return confirm('Are you sure you want to delete this report?')"
-          >
-            <i class="fas fa-minus-circle"></i>
-          </form>
-        </td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
 </div>

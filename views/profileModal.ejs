@@ -24,26 +24,52 @@
       </div>
       <div class="modal-body">
         <!-- modal content -->
-        <form>
+        <form
+          enctype="multipart/form-data"
+          action="<%= url %>/profile-photo"
+          method="POST"
+        >
           <div class="form-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFile" />
-              <label class="custom-file-label" for="customFile"
+              <input
+                type="file"
+                accept=".jpg,.png,.jpeg"
+                class="custom-file-input"
+                id="customFileInput"
+                name="customFileInput"
+              />
+              <label class="custom-file-label" for="customFileInput"
                 >Choose file</label
               >
             </div>
           </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary" id="customFileInput">
+              Upload
+            </button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document
+    .querySelector(".custom-file-input")
+    .addEventListener("change", function (e) {
+      var name = document.getElementById("customFileInput").files[0].name;
+      var nextSibling = e.target.nextElementSibling;
+      nextSibling.innerText = name;
+    });
+</script>
 
 <!-- profile name -->
 <div
