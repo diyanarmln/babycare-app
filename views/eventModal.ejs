@@ -286,20 +286,21 @@
         <!-- modal content -->
         <form
           name="editSoiledDiaperForm"
-          action="/dashboard/5/1/soiled"
+          action="/dashboard/5/1/soiled?_method=PUT"
           method="POST"
         >
-          <div class="form-group">
-            <label for="inputSoiledDate">Date</label>
+          <div class="form-group editSoiledDiaperForm">
+            <label for="editSoiledDate">Date</label>
             <input
               type="datetime-local"
               class="form-control editSoiledDate"
               id="editSoiledDate"
               name="editSoiledDate"
+              value=""
               placeholder="Enter date and time of soiled nappy"
             />
             <br />
-            <label for="inputSoiledColour">Stool Colour</label>
+            <label for="editSoiledColour">Stool Colour</label>
             <select
               class="custom-select"
               id="editSoiledColour"
@@ -322,7 +323,13 @@
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="saveEditSoiledEvent"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>

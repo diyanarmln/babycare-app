@@ -55,10 +55,6 @@ const getHash = (input) => {
   return shaObj.getHash('HEX');
 };
 
-const popModal = (x) => {
-  ('#editModal1').modal('show');
-};
-
 // ============== route helper funtions ==============
 
 // render home page
@@ -171,7 +167,7 @@ const handleFileCheckLogin = (request, response) => {
 const handleFileReadDashboard = (request, response) => {
   const { profile } = request.params;
 
-  const sqlPull = `select date, log.event_id, log_id, event_name, profile.baby_name from log left join event on log.event_id = event.event_id left join profile on log.profile_id = profile.profile_id where log.profile_id = ${profile} order by 1 DESC, 2 DESC`;
+  const sqlPull = `select * from log left join event on log.event_id = event.event_id left join profile on log.profile_id = profile.profile_id where log.profile_id = ${profile} order by 1 DESC, 2 DESC`;
 
   pool.query(sqlPull, (error, result) => {
     if (error) {
@@ -194,7 +190,7 @@ const handleFileReadDashboard = (request, response) => {
       if (filename === null) {
         result.filename = 'f218e10bc15659da214dc95a5a83695d';
         result.url = request.url;
-        console.log('final', result);
+        // console.log('final', result);
 
         response.render('dashboard', result);
         return;
@@ -202,7 +198,7 @@ const handleFileReadDashboard = (request, response) => {
 
       result.filename = filename;
       result.url = request.url;
-      console.log('final', result);
+      // console.log('final', result);
 
       response.render('dashboard', result);
     });
@@ -340,12 +336,14 @@ const handlePhotoUpload = (request, response) => {
   });
 };
 
+const handleSoiledEventEdit = (request, response) => {
+  console.log('x');
+};
+
 // $(document).on('click', '.open-AddBookDialog', function () {
 //   const myBookId = $(this).data('id');
 //   $('.modal-body #bookId').val(myBookId);
 // });
-
-console.log('jqeury code reached');
 
 // $('.rowEdit').click((e) => {
 //   console.log('e', e);
@@ -390,6 +388,8 @@ app.post('/dashboard/:user/:profile/wet', handleFileSaveWet);
 app.post('/dashboard/:user/:profile/milk', handleFileSaveMilk);
 app.post('/dashboard/:user/:profile/sleep', handleFileSaveSleep);
 app.post('/dashboard/:user/:profile/profile-photo', multerUpload.single('customFileInput'), handlePhotoUpload);
+
+app.put('/dashboard/:user/:profile/soiled', handleSoiledEventEdit);
 
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);

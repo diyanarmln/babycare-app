@@ -107,6 +107,7 @@
         <th scope="col">Date</th>
         <th scope="col">Event</th>
         <th style="display: none">logId</th>
+        <th style="display: none">variable</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -124,6 +125,7 @@
         </td>
         <td><%= row.event_name %></td>
         <td style="display: none"><%= row.log_id %></td>
+        <td style="display: none"><%= row.stool_colour %></td>
         <td class="col-delete">
           <!-- <button
             type="button"
@@ -154,3 +156,35 @@
 <div><%- include('profileModal'); -%></div>
 
 <div><%- include('footer'); -%></div>
+
+<script>
+  $(function () {
+    //Take the data from the TR during the event button
+    $("table").on("click", "tr.rowEdit", function (ele) {
+      //the <tr> variable is use to set the parentNode from "ele
+      var tr = ele.target.parentNode;
+      console.log(tr);
+
+      //I get the value from the cells (td) using the parentNode (var tr)
+      var date = new Date(tr.cells[0].textContent);
+      var newDate = date.toISOString().substring(0, 19);
+      console.log(newDate);
+      var id = tr.cells[2].textContent;
+      var level = tr.cells[3].textContent;
+
+      //Prefill the fields with the gathered information
+      $("#editSoiledDate").val(newDate);
+      $("#editSoiledColour").val(level).attr("selected", "selected");
+
+      //If you need to update the form data and change the button link
+      $("form#editSoiledDiaperForm").attr(
+        "action",
+        window.location.href + "/soiled/" + id
+      );
+      $("a#saveEditSoiledEvent").attr(
+        "href",
+        window.location.href + "/update/" + id
+      );
+    });
+  });
+</script>
