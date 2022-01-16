@@ -70,7 +70,7 @@
       data-toggle="modal"
       data-target="#profilePhotoModal"
     >
-      <img src="/<%= rows[0].filename %>" class="profile-photo-img" />
+      <img src="/<%= filename %>" class="profile-photo-img" />
     </a>
   </div>
   <!-- profile name -->
@@ -81,7 +81,7 @@
       data-target="#editProfileNameModal"
       type="button"
     >
-      Nayla Sofea
+      <%= rows[0].baby_name %>
     </button>
 
     <a

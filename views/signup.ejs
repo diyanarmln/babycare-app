@@ -26,6 +26,7 @@
         id="inputEmail"
         aria-describedby="emailHelp"
         placeholder="Email address"
+        autocomplete="username"
         required
       />
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
@@ -39,12 +40,63 @@
           id="inputPassword"
           name="inputPassword"
           placeholder="Password"
+          autocomplete="current-password"
           required
       />
       <small id="passwordHelp" class="form-text text-muted">Your password must be between 8-20 characters long.
       </small>
       <br>
     </div>
+    <div>
+      <h3 style="text-align: center;">Your baby's profile</h2>
+      <div>
+        <label for="inputBabyName"></label>
+        <input
+          name="inputBabyName"
+          type="text"
+          class="form-control"
+          id="inputBabyName"
+          placeholder="Your baby's name/ nickname"
+          required
+        />
+      </div> 
+        <div class="row">
+          <div class="col">
+            <label for="inputBabyDOB"></label>
+            <input id="inputBabyDOB" type="date" name="inputBabyDOB" class="form-control" placeholder="Date of Birth" required/>
+          </div>
+          <div class="col">
+            <label for="inputBabyGender"></label>
+            <select
+                class="custom-select"
+                id="inputBabyGender"
+                name="inputBabyGender"
+                required
+              >
+                <option selected>Select</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+              </select>
+          </div>
+        </div>
+        <br>
+        <div class="custom-file">
+          <label for="uploadPhoto"></label>
+          <input
+            type="file"
+            accept=".jpg,.png,.jpeg"
+            class="custom-file-input"
+            id="customFileInput"
+            name="customFileInput"
+          />
+          <label class="custom-file-label" for="customFileInput"
+            >Upload your baby's profile photo</label
+          >
+      </div>
+    </div>
+    
+
+    <br>
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="exampleCheck1" />
       <label class="form-check-label" for="exampleCheck1"
@@ -56,6 +108,16 @@
     <a class="btn btn-outline-secondary" href="/" role="button">Cancel</a>
   </form>
 </div>
+
+<script>
+  document
+    .querySelector(".custom-file-input")
+    .addEventListener("change", function (e) {
+      var name = document.getElementById("customFileInput").files[0].name;
+      var nextSibling = e.target.nextElementSibling;
+      nextSibling.innerText = name;
+    });
+</script>
 
 </div>
 

@@ -75,6 +75,7 @@ body {
   object-fit: cover;
   border-radius: 50%;
   border: 7px solid #ffccb3;
+  background-color: #ffccb3;
 }
 
 .profile-photo-img:hover {

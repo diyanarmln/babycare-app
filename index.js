@@ -80,7 +80,7 @@ const handleFileSaveSignup = (request, response) => {
 
   const inputData = [content.inputFirstName, content.inputLastName, content.inputEmail, hashedPassword];
 
-  const sqlInsert = 'INSERT INTO account (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
+  const sqlInsert = 'INSERT INTO account (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING account_id';
 
   pool.query(sqlInsert, inputData, (error, result) => {
     if (error) {
@@ -88,6 +88,22 @@ const handleFileSaveSignup = (request, response) => {
       console.log('DB write error', error.stack);
       return;
     }
+
+    console.log('firstquery', result);
+
+    const accountId = result.rows[0].account_id;
+    console.log('account', accountId);
+
+    const inputData2 = [content.inputBabyName, content.inputBabyDOB, content.inputBabyGender, accountId];
+
+    const sqlInsert2 = 'INSERT INTO profile (baby_name, birth_date, gender, account_id) VALUES ($1, $2, $3, $4)';
+
+    pool.query(sqlInsert2, inputData2, (error, result) => {
+      if (error) {
+        response.status(500).send('DB write error');
+        console.log('DB write error', error.stack);
+      }
+    });
 
     // console.log('qeury inserted', result);
 
@@ -155,7 +171,7 @@ const handleFileCheckLogin = (request, response) => {
 const handleFileReadDashboard = (request, response) => {
   const { profile } = request.params;
 
-  const sqlPull = `select distinct (filename), date, log.event_id, log_id, event_name from log left join event on log.event_id = event.event_id left join profile on log.profile_id = profile.profile_id where log.profile_id = ${profile} order by 1 DESC, 2 DESC`;
+  const sqlPull = `select date, log.event_id, log_id, event_name, profile.baby_name from log left join event on log.event_id = event.event_id left join profile on log.profile_id = profile.profile_id where log.profile_id = ${profile} order by 1 DESC, 2 DESC`;
 
   pool.query(sqlPull, (error, result) => {
     if (error) {
@@ -164,11 +180,37 @@ const handleFileReadDashboard = (request, response) => {
       return;
     }
 
-    result.url = request.url;
+    const pullFilename = `select filename from profile where profile_id = ${profile}`;
+    pool.query(pullFilename, (error2, result2) => {
+      if (error) {
+        response.status(500).send('DB write error');
+        console.log('DB write error', error.stack);
+      }
 
-    console.log('log qeury pulled', result);
+      console.log('result2', result2);
+      const { filename } = result2.rows[0];
+      console.log('filename', filename);
 
-    response.render('dashboard', result);
+      if (filename === null) {
+        result.filename = 'f218e10bc15659da214dc95a5a83695d';
+        result.url = request.url;
+        console.log('final', result);
+
+        response.render('dashboard', result);
+        return;
+      }
+
+      result.filename = filename;
+      result.url = request.url;
+      console.log('final', result);
+
+      response.render('dashboard', result);
+    });
+
+    // const profilePhoto = result.rows[0].filename;
+    // if (profilePhoto = '') {
+    //   result.rows[0].filename = 'https://cdn-icons-png.flaticon.com/512/3282/3282468.png';
+    // }
   });
 };
 
@@ -347,16 +389,18 @@ app.post('/dashboard/:user/:profile/soiled', handleFileSaveSoiled);
 app.post('/dashboard/:user/:profile/wet', handleFileSaveWet);
 app.post('/dashboard/:user/:profile/milk', handleFileSaveMilk);
 app.post('/dashboard/:user/:profile/sleep', handleFileSaveSleep);
-app.post('/dashboard/:user/:profile/profile-photo', multerUpload.single('profilePhoto'), handlePhotoUpload);
+app.post('/dashboard/:user/:profile/profile-photo', multerUpload.single('customFileInput'), handlePhotoUpload);
 
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);
 // app.put('/profile/photo/:id/edit', handleFileSaveEditPhoto);
 // app.get('/profile/:id/edit', handleFileReadProfileEdit);
 // app.put('/profile/:id/edit', handleFileSaveProfileEdit);
-// app.get('/profile/add', handleFileReadAddProfile);
-// app.post('/profile/add', handleFileSaveAddProfile);
+
 // app.get('/settings', handleFileReadSettings);
 // app.get('/forgetpassword', handleFileReadForgetPassword);
+
+// app.get('/profile/add', handleFileReadAddProfile);
+// app.post('/profile/add', handleFileSaveAddProfile);
 
 app.listen(3004);
