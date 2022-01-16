@@ -124,7 +124,12 @@
         </td>
         <td><%= row.event_name %></td>
         <td style="display: none"><%= row.log_id %></td>
-        <td style="display: none"><%= row.stool_colour %></td>
+        <td style="display: none">
+          <% if (row.event_id === 1) { %> <%= row.stool_colour %> <% } else if
+          (row.event_id === 2) { %> <%= row.nappy_weight %> <% } else if
+          (row.event_id === 3) { %> <%= row.milk_qty %> <% } else if
+          (row.event_id === 4) { %> <%= row.end_date %> <% } %>
+        </td>
         <td class="col-delete">
           <form
             action="..."
@@ -144,6 +149,7 @@
 
 <div><%- include('footer'); -%></div>
 
+<!-- script for prefilling edit event - soiled nappy -->
 <script>
   $(function () {
     //Take the data from the TR during the event button
@@ -156,16 +162,37 @@
       var date = new Date(tr.cells[0].textContent);
       var newDate = date.toISOString().substring(0, 19);
       var id = tr.cells[2].textContent;
-      var level = tr.cells[3].textContent;
+      var variable = tr.cells[3].textContent.trim();
+      console.log(variable);
+      var variableDate = new Date(variable).toISOString().substring(0, 19);
 
       //Prefill the fields with the gathered information
       $("#editSoiledDate").val(newDate);
-      $("#editSoiledColour").val(level).attr("selected", "selected");
+      $("#editSoiledColour").val(variable).attr("selected", "selected");
+      $("#editWetDate").val(newDate);
+      $("#editWetWeight").val(variable).attr("selected", "selected");
+      $("#editMilkDate").val(newDate);
+      $("#editMilkQty").val(variable);
+      $("#editSleepDate").val(newDate);
+      $("#editSleepDateEnd").val(variableDate);
 
       //If you need to update the form data and change the button link
       $("form#editSoiledDiaperForm").attr(
         "action",
         window.location.href + `/${id}` + "/soiled?_method=PUT"
+      );
+
+      $("form#editWetDiaperForm").attr(
+        "action",
+        window.location.href + `/${id}` + "/wet?_method=PUT"
+      );
+      $("form#editMilkForm").attr(
+        "action",
+        window.location.href + `/${id}` + "/milk?_method=PUT"
+      );
+      $("form#editSleepForm").attr(
+        "action",
+        window.location.href + `/${id}` + "/sleep?_method=PUT"
       );
     });
   });

@@ -333,14 +333,13 @@ const handlePhotoUpload = (request, response) => {
   });
 };
 
+// update edit via PUT for soiled nappy event
 const handleSoiledEventEdit = (request, response) => {
   const content = request.body;
   // console.log(content);
   const { user } = request.params;
   const { profile } = request.params;
   const { log } = request.params;
-
-  console.log(content.inputSoiledDate);
 
   const sqlUpdate = `UPDATE log SET date = '${content.editSoiledDate}', stool_colour = '${content.editSoiledColour}' WHERE log_id = '${log}';`;
 
@@ -356,40 +355,71 @@ const handleSoiledEventEdit = (request, response) => {
     response.redirect(`/dashboard/${user}/${profile}`);
   }); };
 
-// $(document).on('click', '.open-AddBookDialog', function () {
-//   const myBookId = $(this).data('id');
-//   $('.modal-body #bookId').val(myBookId);
-// });
+// update edit via PUT for wet nappy event
+const handleWetEventEdit = (request, response) => {
+  const content = request.body;
+  // console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+  const { log } = request.params;
 
-// $('.rowEdit').click((e) => {
-//   console.log('e', e);
-//   const date = $(e.relatedTarget).data('id');
-//   $(e.currentTarget).find('input[name="editSoiledDate"]').val(date);
-// });
+  const sqlUpdate = `UPDATE log SET date = '${content.editWetDate}', nappy_weight = '${content.editWetWeight}' WHERE log_id = '${log}';`;
 
-// $('.rowEdit').on('click', (ele) => {
-//   console.log('click event');
-//   const tr = ele.target.parentNode.parentNode;
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
 
-//   const date = tr.cells[0].textContent;
+    console.log('qeury updated', result);
 
-//   $('#editSoiledDate').val(date);
-// });
-// $('#rowEdit').on('click', function () {
-//   console.log('clicked', this);
-// });
-// $('#editModal1').on('shown.bs.modal', (e) => {
-//   const button = $(e.relatedTarget);
-//   console.log('clicked', button);
-// });
-// $(() => {
-//   $('table').on('click', 'editingTRbutton', (ele) => {
-//     const tr = ele.target.parentNode.parentNode;
-//     const date = tr.cells[0].textContent;
-//     $('#editSoiledDate').val(date);
-//     console.log('reached');
-//   });
-// });
+    response.redirect(`/dashboard/${user}/${profile}`);
+  }); };
+
+// update edit via PUT for sleep  event
+const handleMilkEventEdit = (request, response) => {
+  const content = request.body;
+  // console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+  const { log } = request.params;
+
+  const sqlUpdate = `UPDATE log SET date = '${content.editMilkDate}', milk_qty = '${content.editMilkQty}' WHERE log_id = '${log}';`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury updated', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  }); };
+
+// update edit via PUT for milk nappy event
+const handleSleepEventEdit = (request, response) => {
+  const content = request.body;
+  // console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+  const { log } = request.params;
+
+  const sqlUpdate = `UPDATE log SET date = '${content.editSleepDate}', end_date = '${content.editSleepDateEnd}' WHERE log_id = '${log}';`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury updated', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  }); };
 
 // ============== routes ==============
 
@@ -406,6 +436,9 @@ app.post('/dashboard/:user/:profile/sleep', handleFileSaveSleep);
 app.post('/dashboard/:user/:profile/profile-photo', multerUpload.single('customFileInput'), handlePhotoUpload);
 
 app.put('/dashboard/:user/:profile/:log/soiled', handleSoiledEventEdit);
+app.put('/dashboard/:user/:profile/:log/wet', handleWetEventEdit);
+app.put('/dashboard/:user/:profile/:log/milk', handleMilkEventEdit);
+app.put('/dashboard/:user/:profile/:log/sleep', handleSleepEventEdit);
 
 // app.get('/profile/photo/:id', handleFileReadProfilePhoto);
 // app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);

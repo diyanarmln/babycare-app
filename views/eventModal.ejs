@@ -328,13 +328,195 @@
             >
               Close
             </button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              id="saveEditSoiledEvent"
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing wet nappy event-->
+<div
+  class="modal fade"
+  id="editModal2"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModal2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Wet Nappy</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form
+          id="editWetDiaperForm"
+          name="editWetDiaperForm"
+          action=""
+          method="POST"
+        >
+          <div class="form-group editWetDiaperForm">
+            <label for="editWetDate">Date</label>
+            <input
+              type="datetime-local"
+              class="form-control editWetDate"
+              id="editWetDate"
+              name="editWetDate"
+              value=""
+            />
+            <br />
+            <label for="editWetWeight">Weight</label>
+            <select
+              class="custom-select editWetWeight"
+              id="editWetWeight"
+              name="editWetWeight"
             >
-              Submit
+              <option selected>Select</option>
+              <option value="1">Light</option>
+              <option value="2">Moderate</option>
+              <option value="3">Heavy</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
             </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing milk event-->
+<div
+  class="modal fade"
+  id="editModal3"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModal3"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Milk Feed</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form id="editMilkForm" name="editMilkForm" action="" method="POST">
+          <div class="form-group editMilkForm">
+            <label for="editMilkDate">Date</label>
+            <input
+              type="datetime-local"
+              class="form-control editMilkDate"
+              id="editMilkDate"
+              name="editMilkDate"
+              value=""
+            />
+            <br />
+            <label for="editMilkQty">Quantity (ml)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="editMilkQty"
+              name="editMilkQty"
+              value=""
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing sleep event-->
+<div
+  class="modal fade"
+  id="editModal4"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModal4"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Sleep Time</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form id="editSleepForm" name="editSleepForm" action="" method="POST">
+          <div class="form-group editSleepForm">
+            <label for="editSleepDate">Date</label>
+            <input
+              type="datetime-local"
+              class="form-control editSleepDate"
+              id="editSleepDate"
+              name="editSleepDate"
+              value=""
+            />
+            <br />
+            <label for="editSleepDateEnd">Date</label>
+            <input
+              type="datetime-local"
+              class="form-control editSleepDateEnd"
+              id="editSleepDateEnd"
+              name="editSleepDateEnd"
+              value=""
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
