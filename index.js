@@ -460,9 +460,9 @@ const handleProfileEdit = (request, response) => {
 const handleFileReadAccount = (request, response) => {
   const { user } = request.params;
 
-  const sqlUpdate = `SELECT * FROM account left join profile on account.account_id = profile.account_id WHERE account.account_id = ${user}`;
+  const sqlSelect = `SELECT * FROM account left join profile on account.account_id = profile.account_id WHERE account.account_id = ${user}`;
 
-  pool.query(sqlUpdate, (error, result) => {
+  pool.query(sqlSelect, (error, result) => {
     if (error) {
       response.status(500).send('DB write error');
       console.log('DB write error', error.stack);
@@ -475,6 +475,25 @@ const handleFileReadAccount = (request, response) => {
     response.render('account', result);
   });
 };
+
+const handleAccountEdit = (request, response) => {
+  const content = request.body;
+  const { user } = request.params;
+  const { profile } = request.params;
+
+  const sqlUpdate = `UPDATE account SET first_name = '${content.editFirstName}', last_name = '${content.editLastName}', email = '${content.editEmail}' where account_id = ${user}`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury updated', result);
+
+    response.redirect(`/dashboard/${user}/${profile}/account`);
+  }); };
 
 // ============== routes ==============
 
@@ -497,6 +516,7 @@ app.put('/dashboard/:user/:profile/:log/sleep', handleSleepEventEdit);
 app.post('/dashboard/:user/:profile/profile', handleProfileEdit);
 
 app.get('/dashboard/:user/:profile/account', handleFileReadAccount);
+app.post('/dashboard/:user/:profile/account', handleAccountEdit);
 // app.get('/forgetpassword', handleFileReadForgetPassword);
 
 // app.get('/profile/add', handleFileReadAddProfile);
