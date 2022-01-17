@@ -433,6 +433,29 @@ const handleSleepEventEdit = (request, response) => {
     response.redirect(`/dashboard/${user}/${profile}`);
   }); };
 
+// update edit via PUT for edit profile
+const handleProfileEdit = (request, response) => {
+  const content = request.body;
+  // console.log(content);
+  const { user } = request.params;
+  const { profile } = request.params;
+
+  console.log(request.body);
+
+  const sqlUpdate = `UPDATE profile SET baby_name = '${content.editProfileName}', birth_date = '${content.editBirthDate}', gender =  '${content.editBabyGender}' WHERE profile_id = '${profile}';`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+
+    console.log('qeury updated', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  }); };
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
@@ -451,12 +474,7 @@ app.put('/dashboard/:user/:profile/:log/soiled', handleSoiledEventEdit);
 app.put('/dashboard/:user/:profile/:log/wet', handleWetEventEdit);
 app.put('/dashboard/:user/:profile/:log/milk', handleMilkEventEdit);
 app.put('/dashboard/:user/:profile/:log/sleep', handleSleepEventEdit);
-
-// app.get('/profile/photo/:id', handleFileReadProfilePhoto);
-// app.get('/profile/photo/:id/edit', handleFileReadEditPhoto);
-// app.put('/profile/photo/:id/edit', handleFileSaveEditPhoto);
-// app.get('/profile/:id/edit', handleFileReadProfileEdit);
-// app.put('/profile/:id/edit', handleFileSaveProfileEdit);
+app.post('/dashboard/:user/:profile/profile', handleProfileEdit);
 
 // app.get('/settings', handleFileReadSettings);
 // app.get('/forgetpassword', handleFileReadForgetPassword);

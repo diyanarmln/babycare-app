@@ -95,13 +95,19 @@
       </div>
       <div class="modal-body">
         <!-- modal content -->
-        <form>
+        <form
+          id="editProfileForm"
+          name="editProfileForm"
+          action="<%= url %>/profile"
+          method="POST"
+        >
           <div class="form-group">
             <label for="editProfileName">Baby's Name</label>
             <input
               type="text"
               class="form-control"
               id="editProfileName"
+              name="editProfileName"
               placeholder="Enter profile name"
             />
             <br />
@@ -110,24 +116,33 @@
               type="date"
               class="form-control"
               id="editBirthDate"
+              name="editBirthDate"
               placeholder="Enter date of birth"
             />
             <br />
             <label for="editBabyGender">Gender</label>
-            <select class="custom-select" id="editBabyGender">
+            <select
+              class="custom-select"
+              id="editBabyGender"
+              name="editBabyGender"
+            >
               <option selected>Select</option>
               <option value="1">Male</option>
               <option value="2">Female</option>
               <option value="3">Surprise</option>
             </select>
           </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
