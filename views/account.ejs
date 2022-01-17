@@ -1,0 +1,128 @@
+<%- include('header-user', {title: `Baby Care`}); -%>
+
+  <div class="container" style="padding-top: 70px; padding-bottom: 30px">
+    <div style="padding:5% 0">
+      <h2 style="text-align: center;">Your Account</h2>
+    </div>
+
+  <div class="container accountEdit">
+    
+    <p>
+      <span style="font-weight: bold">Email:</span>
+      <span><%= rows[0].email %></span>
+    </p>
+    <p>
+    <span style="font-weight: bold">First Name:</span>
+    <span><%= rows[0].first_name %></span>
+    </p>
+    <p>
+      <span style="font-weight: bold">Last Name:</span>
+      <span><%= rows[0].last_name %></span>
+    </p>
+  <div class="btn-group mr-2" role="group" aria-label="First group">
+    <a class="btn btn-primary accountEditButton" style="background-color: #ffccb3; color: #0a1d37; border-style: none" href="<%= url %>/edit" data-toggle="modal"
+      data-target="#editAccountModal"
+      data-first="<%= rows[0].first_name %>"
+      data-last="<%= rows[0].last_name  %>"
+      data-email="<%= rows[0].email %>" role="button"
+      >Edit</a
+    >
+  </div>
+  <div class="btn-group mr-2"  role="group" aria-label="Second group">
+      <a class="btn btn-primary" style="background-color: #ffccb3; color: #0a1d37; border-style: none" href="<%= url %>/password" role="button"
+      >Change Password</a
+    >
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="editAccountModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editAccountModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit your account</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- modal content -->
+        <form
+          id="editAccountForm"
+          name="editAccountForm"
+          action="<%= url %>/account"
+          method="POST"
+        >
+          <div class="form-group">
+
+            <label for="editEmail">Email Address</label>
+            <input
+              name="editEmail"
+              type="email"
+              class="form-control"
+              id="editEmail"
+              value=""
+              autocomplete="username"
+            />
+            <br />
+
+            <label for="editFirstName">First Name</label>
+            <input id="editFirstName" type="text" name="editFirstName" class="form-control" value=""/>
+            <br />
+
+            <label for="editLastName">Last Name</label>
+            <input id="editLastName" type="text" name="editLastName" class="form-control" value=""/>
+
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+  <%- include('footer'); -%>
+</div>
+<script>
+  $(function () {
+    $(".accountEdit").on(
+      "click",
+      "a.accountEditButton",
+      function (event) {
+      
+        var firstName = $("a.accountEditButton").data("first");
+        var lastName = $("a.accountEditButton").data("last");
+        var email = $("a.accountEditButton").data("email");
+        console.log(email, firstName, lastName)
+
+        $("#editEmail").val(email);
+        $("#editFirstName").val(firstName);
+        $("#editLastName").val(lastName);
+      }
+    );
+  });
+</script>

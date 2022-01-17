@@ -456,6 +456,26 @@ const handleProfileEdit = (request, response) => {
     response.redirect(`/dashboard/${user}/${profile}`);
   }); };
 
+// render account page
+const handleFileReadAccount = (request, response) => {
+  const { user } = request.params;
+
+  const sqlUpdate = `SELECT * FROM account left join profile on account.account_id = profile.account_id WHERE account.account_id = ${user}`;
+
+  pool.query(sqlUpdate, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error');
+      console.log('DB write error', error.stack);
+      return;
+    }
+    result.url = request.url;
+
+    console.log('qeury updated', result);
+
+    response.render('account', result);
+  });
+};
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
@@ -476,7 +496,7 @@ app.put('/dashboard/:user/:profile/:log/milk', handleMilkEventEdit);
 app.put('/dashboard/:user/:profile/:log/sleep', handleSleepEventEdit);
 app.post('/dashboard/:user/:profile/profile', handleProfileEdit);
 
-// app.get('/settings', handleFileReadSettings);
+app.get('/dashboard/:user/:profile/account', handleFileReadAccount);
 // app.get('/forgetpassword', handleFileReadForgetPassword);
 
 // app.get('/profile/add', handleFileReadAddProfile);
