@@ -184,12 +184,21 @@ const handleFileReadDashboard = (request, response) => {
       }
 
       const { filename } = result2.rows[0];
+      const birthDate = result.rows[0].birth_date;
+      const { gender } = result.rows[0];
 
       if (filename === null) {
         result.filename = 'f218e10bc15659da214dc95a5a83695d';
         result.url = request.url;
 
         // console.log('final', result);
+        if (birthDate === null) {
+          result.birthDate = '';
+        } else { result.birthDate = result.rows[0].birth_date; }
+
+        if (gender === null) {
+          result.gender = '';
+        } else { result.gender = result.rows[0].gender; }
 
         response.render('dashboard', result);
         return;
@@ -197,13 +206,16 @@ const handleFileReadDashboard = (request, response) => {
 
       result.filename = filename;
       result.url = request.url;
+      if (birthDate === null) {
+        result.birthDate = '';
+      } else { result.birthDate = result.rows[0].birth_date; }
+
+      if (gender === null) {
+        result.gender = '';
+      } else { result.gender = result.rows[0].gender; }
+
       response.render('dashboard', result);
     });
-
-    // const profilePhoto = result.rows[0].filename;
-    // if (profilePhoto = '') {
-    //   result.rows[0].filename = 'https://cdn-icons-png.flaticon.com/512/3282/3282468.png';
-    // }
   });
 };
 

@@ -74,22 +74,20 @@
     </a>
   </div>
   <!-- profile name -->
-  <div class="row justify-content-center">
+  <div class="row justify-content-center profileNameEditable">
     <button
-      class="profile-name"
+      class="profile-name profileEditButton"
       data-toggle="modal"
       data-target="#editProfileNameModal"
+      data-name="<%= rows[0].baby_name %>"
+      data-dob="<%= birthDate %>"
+      data-gender="<%= gender %>"
       type="button"
     >
       <%= rows[0].baby_name %>
     </button>
 
-    <a
-      href="..."
-      class="add-profile"
-      data-toggle="modal"
-      data-target="#addProfileModal"
-    >
+    <a class="add-profile" data-toggle="modal" data-target="#addProfileModal">
       +</a
     >
   </div>
@@ -195,5 +193,27 @@
         window.location.href + `/${id}` + "/sleep?_method=PUT"
       );
     });
+  });
+</script>
+
+<script>
+  $(function () {
+    $(".profileNameEditable").on(
+      "click",
+      "button.profileEditButton",
+      function (event) {
+        // var profileId = window.location.href.substring(35, 36);
+        // var button = button.profileEditButton;
+        var name = $("button.profileEditButton").data("name");
+        var dob = $("button.profileEditButton").data("dob");
+        var newDOB = new Date(dob).toISOString().substring(0, 10);
+        var gender = $("button.profileEditButton").data("gender");
+        console.log(newDOB);
+
+        $("#editProfileName").val(name);
+        $("#editBirthDate").val(newDOB);
+        $("#editBabyGender").val(gender).attr("selected", "selected");
+      }
+    );
   });
 </script>
