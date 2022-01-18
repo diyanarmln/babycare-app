@@ -203,3 +203,17 @@ div.center-cropped img {
   background-color: #0a1d37;
   color: white;
 }
+
+.delete-button {
+  background-color: transparent;
+  border-style: none;
+}
+
+.delete-button:hover {
+  -webkit-transform: translateY(-1px);
+  transform: translateY(-1px);
+}
+
+.delete-button:focus {
+  outline: 0;
+}

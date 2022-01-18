@@ -79,12 +79,12 @@
       class="profile-name profileEditButton"
       data-toggle="modal"
       data-target="#editProfileNameModal"
-      data-name="<%= rows[0].baby_name %>"
+      data-name="<%= babyName %>"
       data-dob="<%= birthDate %>"
       data-gender="<%= gender %>"
       type="button"
     >
-      <%= rows[0].baby_name %>
+      <%= babyName %>
     </button>
 
     <a class="add-profile" data-toggle="modal" data-target="#addProfileModal">
@@ -111,16 +111,22 @@
     </thead>
     <tbody id="logBody">
       <% rows.forEach((row)=>{ %>
-      <tr
-        class="rowEdit"
-        data-toggle="modal"
-        data-target="#editModal<%= row.event_id %>"
-      >
-        <td class="date">
+      <tr>
+        <td
+          class="date rowEdit"
+          data-toggle="modal"
+          data-target="#editModal<%= row.event_id %>"
+        >
           <%= new Date(row.date).toLocaleString('en-US', { day:'numeric', month:
           'short', hour: 'numeric', minute: 'numeric', hour12: true }) %>
         </td>
-        <td><%= row.event_name %></td>
+        <td
+          class="rowEdit"
+          data-toggle="modal"
+          data-target="#editModal<%= row.event_id %>"
+        >
+          <%= row.event_name %>
+        </td>
         <td style="display: none"><%= row.log_id %></td>
         <td style="display: none">
           <% if (row.event_id === 1) { %> <%= row.stool_colour %> <% } else if
@@ -130,10 +136,11 @@
         </td>
         <td class="col-delete">
           <form
-            action="..."
-            onclick="return confirm('Are you sure you want to delete this event?')"
+            action="<%= url %>/<%= row.log_id %>?_method=DELETE"
+            method="POST"
+            onclick="return confirm('Are you sure you want to delete this item?');"
           >
-            <i class="fas fa-minus-circle"></i>
+            <button class="fas fa-minus-circle delete-button" type="submit"></a>
           </form>
         </td>
       </tr>
@@ -151,7 +158,7 @@
 <script>
   $(function () {
     //Take the data from the TR during the event button
-    $("table").on("click", "tr.rowEdit", function (ele) {
+    $("table").on("click", "td.rowEdit", function (ele) {
       //the <tr> variable is use to set the parentNode from "ele
       var tr = ele.target.parentNode;
       console.log(tr);
@@ -206,9 +213,10 @@
         // var button = button.profileEditButton;
         var name = $("button.profileEditButton").data("name");
         var dob = $("button.profileEditButton").data("dob");
+        // console.log(dob)
         var newDOB = new Date(dob).toISOString().substring(0, 10);
         var gender = $("button.profileEditButton").data("gender");
-        console.log(newDOB);
+        // console.log(newDOB);
 
         $("#editProfileName").val(name);
         $("#editBirthDate").val(newDOB);

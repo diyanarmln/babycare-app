@@ -57,6 +57,24 @@ const getHash = (input) => {
 
 // ============== route helper funtions ==============
 
+app.use((request, response, next) => {
+  // set the default value
+  request.isUserLoggedIn = false;
+
+  // check to see if the cookies you need exists
+  if (request.cookies.loggedInHash && request.cookies.userId) {
+    // get the hased value that should be inside the cookie
+    const hash = getHash(request.cookies.userId);
+
+    // test the value of the cookie
+    if (request.cookies.loggedInHash === hash) {
+      request.isUserLoggedIn = true;
+    }
+  }
+
+  next();
+});
+
 // render home page
 const handleFileReadHome = (request, response) => {
   response.render('home');
@@ -136,7 +154,7 @@ const handleFileCheckLogin = (request, response) => {
     // get user record from results
     const user = result.rows[0];
     const hashedPassword = getHash(request.body.inputPassword);
-    // console.log(hashedPassword);
+    console.log(user);
 
     // If the user's hashed password in the database does not match the hashed input password, login fails
     if (user.password !== hashedPassword) {
@@ -149,7 +167,7 @@ const handleFileCheckLogin = (request, response) => {
     // The user's password hash matches that in the DB and we authenticate the user.
 
     // create an unhashed cookie string based on user ID and salt
-    const unhashedCookieString = `${user.id}-${SALT}`;
+    const unhashedCookieString = `${user.account_id}`;
     const hashedCookieString = getHash(unhashedCookieString);
 
     const userID = user.account_id;
@@ -157,7 +175,9 @@ const handleFileCheckLogin = (request, response) => {
 
     // set the loggedInHash and userId cookies in the response
     response.cookie('loggedInHash', hashedCookieString);
-    response.cookie('userId', user.id);
+    response.cookie('userId', user.account_id);
+    response.cookie('isUserLoggedIn', true);
+
     // end the request-response cycle
     response.redirect(`/dashboard/${userID}/${profileID}`);
   });
@@ -165,9 +185,15 @@ const handleFileCheckLogin = (request, response) => {
 
 // render dashboard page
 const handleFileReadDashboard = (request, response) => {
-  const { profile } = request.params;
+  if (request.isUserLoggedIn === false) {
+    response.status(403).send('sorry, you are not logged in');
+    return;
+  }
 
-  const sqlPull = `select * from log left join event on log.event_id = event.event_id left join profile on log.profile_id = profile.profile_id where log.profile_id = ${profile} order by 1 DESC, 2 DESC`;
+  const { profile } = request.params;
+  const { user } = request.params;
+
+  const sqlPull = `select * from profile where profile_id = ${profile} AND account_id = ${user}`;
 
   pool.query(sqlPull, (error, result) => {
     if (error) {
@@ -175,46 +201,78 @@ const handleFileReadDashboard = (request, response) => {
       console.log('DB write error', error.stack);
       return;
     }
+    const birthDate = result.rows[0].birth_date;
+    const { gender } = result.rows[0];
+    const babyName = result.rows[0].baby_name;
+    const profileID = result.rows[0].profile_id;
+    const accountID = result.rows[0].account_id;
 
     const pullFilename = `select filename from profile where profile_id = ${profile}`;
     pool.query(pullFilename, (error2, result2) => {
-      if (error) {
+      if (error2) {
         response.status(500).send('DB write error');
-        console.log('DB write error', error.stack);
+        console.log('DB write error', error2.stack);
       }
 
-      const { filename } = result2.rows[0];
-      const birthDate = result.rows[0].birth_date;
-      const { gender } = result.rows[0];
+      const sqlLog = `select * from log left join event on log.event_id = event.event_id where log.profile_id = ${profile} order by log.date DESC`;
 
-      if (filename === null) {
-        result.filename = 'f218e10bc15659da214dc95a5a83695d';
+      pool.query(sqlLog, (error3, result3) => {
+        if (error3) {
+          response.status(500).send('DB write error');
+          console.log('DB write error', error3.stack);
+        }
+
+        result.rows = result3.rows;
+
+        const { filename } = result2.rows[0];
+
+        if (filename === null) {
+          result.filename = 'f218e10bc15659da214dc95a5a83695d';
+          result.url = request.url;
+
+          // console.log('final', result);
+          if (birthDate === null) {
+            result.birthDate = '';
+          } else { result.birthDate = birthDate; }
+
+          if (gender === null) {
+            result.gender = '';
+          } else { result.gender = gender; }
+
+          result.babyName = babyName;
+          result.profile = profileID;
+          result.account = accountID;
+          const logData = result.rows;
+          logData.sort((a, b) => a.date - b.date);
+          result.rows = logData;
+
+          console.log('result1', result);
+
+          response.render('dashboard', result);
+          return;
+        }
+
+        result.filename = filename;
         result.url = request.url;
-
-        // console.log('final', result);
         if (birthDate === null) {
           result.birthDate = '';
-        } else { result.birthDate = result.rows[0].birth_date; }
+        } else { result.birthDate = birthDate; }
 
         if (gender === null) {
           result.gender = '';
-        } else { result.gender = result.rows[0].gender; }
+        } else { result.gender = gender; }
+
+        result.babyName = babyName;
+        result.profile = profileID;
+        result.account = accountID;
+
+        const logData = result.rows;
+        logData.sort((a, b) => a.date - b.date);
+        result.rows = logData;
+        console.log('result2', result);
 
         response.render('dashboard', result);
-        return;
-      }
-
-      result.filename = filename;
-      result.url = request.url;
-      if (birthDate === null) {
-        result.birthDate = '';
-      } else { result.birthDate = result.rows[0].birth_date; }
-
-      if (gender === null) {
-        result.gender = '';
-      } else { result.gender = result.rows[0].gender; }
-
-      response.render('dashboard', result);
+      });
     });
   });
 };
@@ -458,6 +516,10 @@ const handleProfileEdit = (request, response) => {
 
 // render account page
 const handleFileReadAccount = (request, response) => {
+  if (request.isUserLoggedIn === false) {
+    response.status(403).send('sorry, you are not logged in');
+    return;
+  }
   const { user } = request.params;
 
   const sqlSelect = `SELECT * FROM account left join profile on account.account_id = profile.account_id WHERE account.account_id = ${user}`;
@@ -495,6 +557,34 @@ const handleAccountEdit = (request, response) => {
     response.redirect(`/dashboard/${user}/${profile}/account`);
   }); };
 
+// delete log event
+const handleEventDelete = (request, response) => {
+  const { user } = request.params;
+  const { profile } = request.params;
+  const { log } = request.params;
+
+  const sqlDelete = `DELETE FROM log where log_id = ${log};`;
+
+  pool.query(sqlDelete, (error, result) => {
+    if (error) {
+      response.status(500).send('DB write error.');
+      console.log('DB write error', error.stack);
+      return;
+    }
+    console.log('record deleted', result);
+
+    response.redirect(`/dashboard/${user}/${profile}`);
+  });
+};
+
+// log out of account
+const handleAccountLogout = (request, response) => {
+  response.clearCookie('isUserLoggedIn');
+  response.clearCookie('userId');
+  response.clearCookie('loggedInHash');
+  response.redirect('/');
+};
+
 // ============== routes ==============
 
 app.get('/', handleFileReadHome);
@@ -517,6 +607,9 @@ app.post('/dashboard/:user/:profile/profile', handleProfileEdit);
 
 app.get('/dashboard/:user/:profile/account', handleFileReadAccount);
 app.post('/dashboard/:user/:profile/account', handleAccountEdit);
+app.delete('/dashboard/:user/:profile/:log', handleEventDelete);
+app.delete('/logout', handleAccountLogout);
+
 // app.get('/forgetpassword', handleFileReadForgetPassword);
 
 // app.get('/profile/add', handleFileReadAddProfile);
